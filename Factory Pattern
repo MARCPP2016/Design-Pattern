@@ -1,0 +1,119 @@
+using System;
+
+/*
+ --------------------------
+ Factory Pattern
+ ---------------------------
+ */
+
+
+
+namespace FactoryPatern
+{
+
+
+    //Interface
+    interface shape
+    {
+
+        void draw();
+    
+    }
+
+
+    //Rectangle shape
+    class Rectangle:shape
+    {
+
+
+        
+       public  void draw()
+       {
+            Console.WriteLine("Rectangle");
+
+
+        }
+
+    }
+
+    //Circle shape
+    class Circle :shape
+    {
+        public void draw()
+        {
+            Console.WriteLine("Circle");
+
+        }
+
+
+    }
+
+    //Triangle shape
+    class Triangle :shape
+    {
+        public void draw()
+        {
+            Console.WriteLine("Triangle");
+
+        }
+
+
+    }
+
+
+    //Factory class  giveus shape
+    class factory
+    {
+
+
+        //this method get shape by name string
+        public shape getshape(string name)
+        {
+            if (name.Equals("Circle"))
+            {
+                return new Circle();
+            }
+            if (name.Equals("Rectangle"))
+            {
+                return new  Rectangle();
+            }
+            if (name.Equals("Triangle"))
+            {
+                return new Triangle();
+            }
+
+            if (name.Equals(null))
+            {
+                return null;
+            }
+
+            return null;
+        }
+    
+    }
+
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            //Factory instance
+            factory _myshape = new factory();
+            
+            //interface get shape Rectangle
+            shape rect = _myshape.getshape("Rectangle");
+            rect.draw();
+            
+            //interface get shape Circle
+            shape circ = _myshape.getshape("Circle");
+            circ.draw();
+
+            //interface get shape Triangle
+            shape tri = _myshape.getshape("Triangle");
+            tri.draw();
+
+        }
+    }
+}
