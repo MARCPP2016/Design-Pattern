@@ -1,0 +1,143 @@
+//Command pattern
+
+
+namespace ConsoleApp1
+{
+
+
+    //interface order
+
+    public interface Order
+    {
+        void Execute();
+    }
+        
+
+
+    //buy items
+    public class BuyStock : Order
+    {
+        private Stock Lemontock;
+
+    public BuyStock(Stock Lemontock)
+    {
+        this.Lemontock = Lemontock;
+    }
+
+    public void Execute()
+    {
+            Lemontock.buy();
+    }
+}
+
+
+
+
+    //sell items
+    public class SellStock : Order
+    {
+       private Stock Lemontock;
+
+    public SellStock(Stock Lemontock)
+    {
+        this.Lemontock = Lemontock;
+    }
+
+    public void Execute()
+    {
+            Lemontock.sell();
+    }
+}
+
+
+    //broker
+    public class Broker
+    {
+
+        private List<Order> orderList = new  List<Order>();
+
+        //take order
+        public void takeOrder(Order o)
+        {
+            orderList.Add(o);
+        }
+
+
+        //placeorder
+        public void placeOrders()
+        {
+
+            foreach (Order order in orderList)
+            {
+                order.Execute();
+            }
+            orderList.Clear();
+        }
+    }
+
+
+
+    //stock
+    public class Stock
+    {
+
+        private String name = "ABC";
+        private int quantity = 5;
+
+        public void buy()
+        {
+            Console.Write("\nStock [ Name: " + name + ", Quantity: " + quantity + " ] bought");
+        }
+        public void sell()
+        {
+            Console.Write("\nStock [ Name: " + name + ",Quantity: " + quantity + " ] sold");
+        }
+    }
+
+
+    public class CommandPatternDemo
+    {
+        public static void main(String[] args)
+        {
+            //set Stock
+            Stock abcStock = new Stock();
+
+            //buys items
+            BuyStock buyStockOrder = new BuyStock(abcStock);
+            //sells items
+            SellStock sellStockOrder = new SellStock(abcStock);
+
+
+            //take orders comands
+            Broker broker = new Broker();
+
+            
+            broker.takeOrder(buyStockOrder);
+            broker.takeOrder(sellStockOrder);
+
+            broker.placeOrders();
+        }
+    }
+
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Stock abcStock = new Stock();
+
+            BuyStock buyStockOrder = new BuyStock(abcStock);
+            SellStock sellStockOrder = new SellStock(abcStock);
+
+            Broker broker = new Broker();
+            broker.takeOrder(buyStockOrder);
+            broker.takeOrder(sellStockOrder);
+
+            broker.placeOrders();
+
+            Console.ReadKey();
+        }
+    }
+}
