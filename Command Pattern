@@ -1,0 +1,113 @@
+
+    //Interface order
+
+    public interface Order
+    {
+        void Execute();
+    }
+        
+
+
+    //buy items
+    public class BuyStock : Order
+    {
+        private Stock lemonStock;
+
+    public BuyStock(Stock _lemonStock)
+    {
+        this.lemonStock = _lemonStock;
+    }
+
+    public void Execute()
+    {
+            lemonStock.buy();
+    }
+}
+
+
+
+
+    //sell items
+    public class SellStock : Order
+    {
+       private Stock lemonStock;
+
+    public SellStock(Stock _lemonStock)
+    {
+        this.lemonStock = _lemonStock;
+    }
+
+    public void Execute()
+    {
+            lemonStock.sell();
+    }
+}
+
+
+    //broker
+    public class Broker
+    {
+
+        private List<Order> orderList = new  List<Order>();
+
+        //take order
+        public void takeOrder(Order o)
+        {
+            orderList.Add(o);
+        }
+
+
+        //placeorder
+        public void placeOrders()
+        {
+
+            foreach (Order order in orderList)
+            {
+                order.Execute();
+            }
+            orderList.Clear();
+        }
+    }
+
+
+
+    //stock
+    public class Stock
+    {
+
+        private String name = "Lemons";
+        private int quantity = 5;
+
+
+        public void buy()
+        {
+            Console.Write("\n Stock   of " + name + "= Quantity is " + quantity + "<-bought\n");
+        }
+        public void sell()
+        {
+            Console.Write("\n Stock  of " + name + " = Quantity is " + quantity + "->sold");
+        }
+    }
+
+
+    class CommandPatternDemo
+    {
+        static void Main(string[] args)
+        {
+
+            Stock lemons = new Stock();
+
+
+            BuyStock buyStockOrder = new BuyStock(lemons);
+            SellStock sellStockOrder = new SellStock(lemons);
+
+
+            Broker broker = new Broker();
+            broker.takeOrder(buyStockOrder);
+            broker.takeOrder(sellStockOrder);
+
+            broker.placeOrders();
+
+            Console.ReadKey();
+        }
+    }
