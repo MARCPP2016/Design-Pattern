@@ -16,6 +16,7 @@ class events
 {
 
 public:
+   virtual ~events() {}
    virtual bool PRESS_B(){};
    virtual bool RELEASE_B() {};
    virtual bool PRESS_DOWN() {};
