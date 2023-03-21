@@ -1,0 +1,103 @@
+
+#include <iostream>
+
+
+
+/*
+-----------------------------------
+State Pattern-> FSTM
+Adapt From (Game Programing patterns)
+----------------------------------
+*/
+
+
+//Interfaces
+class events 
+{
+
+public:
+   virtual bool PRESS_B(){};
+   virtual bool RELEASE_B() {};
+   virtual bool PRESS_DOWN() {};
+    
+    
+};
+
+
+
+//Implmentation
+class input : events
+{
+public:
+   virtual bool PRESS_B()
+    {
+       return true;
+    }
+
+   
+   virtual bool RELEASE_B()
+   {
+       return true;
+   }
+   virtual bool PRESS_DOWN()
+   {
+       return true;
+   }
+};
+
+class handleinput
+{
+
+public:
+       input i;
+       int state_;
+       int  JUMP_VELOCITY = 1;
+       int yVelocity_;
+
+    //States
+    enum State
+    {
+        STATE_STANDING,
+        STATE_JUMPING,
+        STATE_DUCKING,
+        STATE_DIVING
+    };
+  
+//Finite state machine
+private:
+    void FTM() 
+    {
+        switch (state_)
+        {
+           case STATE_STANDING:
+             
+              if (i.PRESS_B())
+              {
+                state_ = STATE_JUMPING;
+                yVelocity_ = JUMP_VELOCITY;
+                //setGraphics(IMAGE_JUMP);
+             }
+             else if (i.PRESS_DOWN())
+             {
+                state_ = STATE_DUCKING;
+                //setGraphics(IMAGE_DUCK);
+            }
+            break;
+        case STATE_JUMPING:
+            
+            if (i.PRESS_DOWN())
+            {
+                state_ = STATE_DIVING;
+                //setGraphics(IMAGE_DIVE);
+            }
+            break;
+        case STATE_DUCKING:
+            if (i.PRESS_DOWN())
+            {
+                state_ = STATE_STANDING;
+                //setGraphics(IMAGE_STAND);
+            }
+            break;
+        }
+    }
+};
